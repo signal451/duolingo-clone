@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-white border-slate-200 border-2 border-b-4 active:border-b-15 hover:bg-slate-100 text-slate-500",
+        default: "bg-white border-slate-200 border-2 border-b-4 active:border-b-15 hover:bg-slate-100 text-slate-500 active:border-b-0",
         primary: "bg-sky-400 text-primary-foreground hover:bg-sly-400/90 border-sky-500 border-b-4 active:border-b-0",
         primaryOutline: "bg-white text-sky-500 hover:bg-slate-100",
         // destructive:
@@ -18,10 +18,10 @@ const buttonVariants = cva(
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground border",
         // secondary:
         //   "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        secondary: "bg-green-500 text-primary-foreground hover:bg-green-500/90 border-green-600 border-b-5 active:border-b-0",
+        secondary: "bg-green-500 text-primary-foreground hover:bg-green-500/90 border-green-600 border-b-4 active:border-b-0",
         secondaryOutline: "text-green-500 hover:bg-slate-100",
-        destructive: "bg-rose-500 text-primary-foreground hover:bg-rose-500/90 border-rose-600 border-b-5 active:border-b-0",
-        super: "bg-indigo-500 text-primary-foreground hover:bg-indigo-500/90 border-indigo-600 border-b-5 active:border-b-0",
+        destructive: "bg-rose-500 text-primary-foreground hover:bg-rose-500/90 border-rose-700 border-b-4 active:border-b-0",
+        super: "bg-indigo-500 text-primary-foreground hover:bg-indigo-500/90 border-indigo-600 border-b-4 active:border-b-0",
         ghost: "bg-transparent text-slate-500 border-transparent border-0 hover:bg-slate-100",
         sidebar: "bg-transparent text-slate-500 border-2 border-transparent hover:bg-slate-100 transition-none",
         sidebarOutline: "bg-sky-500/15 text-sky-500 border-sky-300 border-2 hover:bg-sky-500/20 transition-none"
