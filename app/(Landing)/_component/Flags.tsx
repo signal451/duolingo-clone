@@ -12,7 +12,6 @@ export const FlagListComponent = () => {
     "CN": "China",
     "MN": "Mongolian"
   }
-  console.log(Object.keys(flagDictionary))
 
   return (
     <>
