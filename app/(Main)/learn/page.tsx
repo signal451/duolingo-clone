@@ -17,8 +17,6 @@ export default function LearnPage() {
       <FeedWrapper>
         <Header title="English" />
         <div className="space-y-4">
-          <div className="h-[700px] bg-blue-500" />
-          <div className="h-[700px] bg-blue-500" />
         </div>
       </FeedWrapper>
     </div>
