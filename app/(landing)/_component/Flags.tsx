@@ -6,11 +6,11 @@ import Image from "next/image"
 export const FlagListComponent = () => {
 
   const flagDictionary: { [key: string]: string } = {
-    "KR": "Korean",
-    "UK": "English",
-    "RU": "Russia",
-    "CN": "China",
-    "MN": "Mongolian"
+    "KR": "Япон",
+    "UK": "Англи",
+    "RU": "Орос",
+    "CN": "Хятад",
+    "MN": "Монгол"
   }
 
   return (

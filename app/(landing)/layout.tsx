@@ -1,5 +1,4 @@
 import { Footer } from "./_component/footer";
-import { Header } from "./_component/header";
 
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
