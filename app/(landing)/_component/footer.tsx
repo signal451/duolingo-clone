@@ -1,4 +1,4 @@
-import { FlagListComponent } from "./Flags"
+import { FlagListComponent } from "./flags"
 
 
 export const Footer = () => {

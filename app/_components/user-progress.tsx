@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button"
+import { courses } from "@/db/schema"
 import Image from "next/image"
 import Link from "next/link"
 
 type Props = {
-  activeCourse: { imageSrc: string, title: string }, //DATABASE TYPES
+  activeCourse: typeof courses.$inferSelect,
   hearts: number,
   points: number,
   hasActiveSubscription: boolean
 }
 
 
-export const UserProgress = ({ activeCourse, points, hearts, hasActiveSubscription }: Props) => {
+export const UserProgress = ({ activeCourse, points, hearts }: Props) => {
   return (
     <div className="flex items-center justify-between gap-x-2 w-full">
       <Link href="/courses">

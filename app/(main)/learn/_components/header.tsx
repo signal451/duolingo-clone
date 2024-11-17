@@ -13,7 +13,7 @@ export const Header = ({ title }: { title: string }) => {
         </Button>
       </Link>
       <h1 className="font-bold text-lg">
-        {title}
+        {title} хэл
       </h1>
       <div />
     </div>

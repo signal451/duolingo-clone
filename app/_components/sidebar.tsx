@@ -32,11 +32,11 @@ export const SideBar = ({ className }: Props) => {
         </div>
       </div>
       <div className="flex flex-col gap-y-2 flex-1">
-        <SidebarItem label="learn" href="/learn" icon={home} />
-        <SidebarItem label="sounds" href="/sound" icon={sound} />
-        <SidebarItem label="quests" href="/quests" icon={quest} />
-        <SidebarItem label="leaderboard" href="/leaderboard" icon={leaderboard} />
-        <SidebarItem label="shop" href="/shop" icon={shop} />
+        <SidebarItem label="Хичээл" href="/learn" icon={home} />
+        <SidebarItem label="сонсгол" href="/sound" icon={sound} />
+        <SidebarItem label="даалгавар" href="/quests" icon={quest} />
+        <SidebarItem label="ранк" href="/leaderboard" icon={leaderboard} />
+        <SidebarItem label="дэлгүүр" href="/shop" icon={shop} />
       </div>
     </div>
   )
