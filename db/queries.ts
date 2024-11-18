@@ -1,6 +1,6 @@
 import { cache } from 'react'
 import db from './drizzle'
-import { challengeProgress, courses, units, userProgress, lessons} from './schema'
+import { challengeProgress, courses, units, userProgress, lessons, userSubscription} from './schema'
 import { auth } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 
@@ -177,7 +177,27 @@ export const getLessonPercentage = cache(async () => {
   const percentage = Math.round((completedChallenges.length / lesson.challenges.length) * 100)
 
   return percentage
+})
 
+
+export const getUserSubscription = cache(async () => {
+  const { userId } = await auth()
+
+  if(!userId) return null
+
+  const data = await db.query.userSubscription.findFirst({
+    where: eq(userSubscription.userId, userId)
+  })
+
+  if (!data) return null
+
+  // on sar iin avdg bolgoh
+  const isActive = data !== null ? true : false
+
+  return {
+    ...data,
+    isActive: isActive
+  }
 })
 
 
