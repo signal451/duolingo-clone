@@ -20,13 +20,53 @@ export const metadata: Metadata = {
   description: "Lingua a fun way to learn new languages",
 };
 
+
+const localization = {
+  signUp: {
+    start: {
+      title: 'Бүртгүүлэх',
+      subtitle: '{{applicationName}} платформ дээр бүртгүүлээд гадаад хэлийг амархан сур',
+      actionText: 'Та бүртгэлтэй бол',
+      actionLink: 'Нэвтрэх',
+    },
+    emailCode: {
+      title: 'Verify your email',
+      subtitle: 'to continue to {{applicationName}}',
+      formTitle: 'Verification code',
+      formSubtitle: 'Enter the verification code sent to your email address',
+      resendButton: "Didn't receive a code? Resend",
+    },
+    continue: {
+      title: 'Fill in missing fields',
+      subtitle: 'to continue to {{applicationName}}',
+      actionText: 'Have an account?',
+      actionLink: 'Sign in',
+    },
+  },
+  signIn: {
+    start: {
+      title: "Нэвтрэх",
+      subtitle: "Тоглоом тоглож байгаа шиг гадаад хэлийг суръя ",
+      actionLink: 'Бүртгүүлэх',
+      actionText: "Шинээр ирж байна уу?"
+    },
+
+    password: {
+      actionLink: 'Use another method',
+      subtitle: '',
+      title: 'Нууц үг оруулна уу',
+    },
+  }
+}
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={localization}>
       <html lang="en" >
         <body className={font.className}>
           {children}
