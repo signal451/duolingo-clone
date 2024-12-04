@@ -4,7 +4,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ExitModal } from "./_components/modals/exit-modal";
-import { HeartsModal } from "./_components/modals/hearts-modal";
+import { PracticeModal } from "./_components/modals/practice-modal";
 
 
 const font = Nunito({
@@ -14,12 +14,10 @@ const font = Nunito({
   weight: ['400', '500', '600', '700']
 })
 
-
 export const metadata: Metadata = {
   title: "Lingua",
   description: "Lingua a fun way to learn new languages",
 };
-
 
 const localization = {
   signUp: {
@@ -72,6 +70,7 @@ export default function RootLayout({
           {children}
           <ExitModal />
           <Toaster />
+          <PracticeModal />
           {/* <HeartsModal /> */}
         </body>
       </html>

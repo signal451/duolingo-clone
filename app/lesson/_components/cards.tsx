@@ -32,7 +32,7 @@ export const Card = ({
   type,
 }: CardProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [audio, _, controls] = useAudio({ src: audioSrc || "" });
+  const [audio, _, controls] = useAudio({ src: "/" + audioSrc || "" });
 
   const handleClick = useCallback(() => {
     if (disabled) return;
@@ -42,6 +42,7 @@ export const Card = ({
   }, [disabled, onClick, controls]);
 
   useKey(shortcut, handleClick, {}, [handleClick]);
+
 
   return (
     <div
@@ -62,7 +63,7 @@ export const Card = ({
       {audio}
       {imageSrc && (
         <div className="relative mb-4 aspect-square max-h-[80px] w-full lg:max-h-[150px]">
-          <Image src={imageSrc} fill alt={text} />
+          <Image src={"/" + imageSrc} fill alt={text} />
         </div>
       )}
 

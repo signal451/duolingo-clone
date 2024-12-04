@@ -9,7 +9,6 @@ export const getCourses = cache(async () => {
   return data;
 })
 
-
 export const getUserProgress = cache(async () => {
   const { userId } = await auth()
 
@@ -37,9 +36,7 @@ export const getCourseById = cache(async (courseId: number) => {
   return data
 })
 
-// this is so awful code for sure
 export const getUnits = cache(async () => {
-
   const {userId} = await  auth()
   const userProgress = await getUserProgress()
 
@@ -62,6 +59,7 @@ export const getUnits = cache(async () => {
     }
   })
 
+  // probably makes it easily accesible 
   const normalizedData = data.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
 
@@ -84,6 +82,7 @@ export const getUnits = cache(async () => {
   })
   return normalizedData
 })
+
 
 export const getCourseProgress = cache(async () => {
   const {userId} = await auth() 
@@ -129,7 +128,6 @@ export const getCourseProgress = cache(async () => {
   };
 })
 
-
 export const getLesson = cache(async (id?: number) => {
   const { userId } = await auth()
 
@@ -164,7 +162,6 @@ export const getLesson = cache(async (id?: number) => {
 
   return { ...data, challenges: normalizedChallenges}
 })
-
 
 export const getLessonPercentage = cache(async () => {
   const courseProgress = await getCourseProgress()
@@ -201,6 +198,20 @@ export const getUserSubscription = cache(async () => {
 })
 
 
+export const getTopUsers = cache(async () => {
+  const { userId } = await auth();
 
+  if (!userId) return [];
 
-
+  const data = await db.query.userProgress.findMany({
+    orderBy: (userProgress, { desc }) => [desc(userProgress.points)],
+    limit: 8,
+    columns: {
+      userId: true,
+      userName: true,
+      userImageSrc: true,
+      points: true,
+    },
+  });
+  return data;
+})

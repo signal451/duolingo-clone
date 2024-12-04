@@ -6,13 +6,17 @@ import { Header } from "./header";
 import { Challenge } from "./challenge";
 import { QuestionBubble } from "./question-buble";
 import { Footer } from "./footer";
-import { reduceHearts, upsertUserProgress } from "@/actions/user-progress";
+import { reduceHearts } from "@/actions/user-progress";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { MAX_HEARTS } from "@/constants";
 import { toast } from "sonner";
-import { useWindowSize } from "react-use";
+import Confetti from 'react-confetti'
+import { useAudio, useWindowSize, useMount } from "react-use";
 import { useRouter } from "next/navigation";
-import { useHeartsModal } from "@/store/use-hearts-modal";
+// import { useHeartsModal } from "@/store/use-hearts-modal";
+import Image from "next/image";
+import { ResultCard } from "./result-card";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 
 
@@ -40,41 +44,57 @@ export const Quiz =
     userSubscription,
   }: QuizProps) => {
 
-    // those 2
-    const [hearts, setHearts] = useState(initialHearts)
-    const [percentage, setPercentage] = useState(initialPercentage)
+    const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true, });
 
-    const [challenges] = useState(initialLessonChallenges)
+    // finish screen
+    const { width, height } = useWindowSize();
+    const router = useRouter()
+
+    // transitions
+    const [pending, startTransition] = useTransition();
+
+
+    // modals
+    // const { open: openHeartsModal } = useHeartsModal();
+    const { open: openPracticeModal } = usePracticeModal()
+
+    // i need practice modal when percent reaches 100 
+
+    useMount(() => {
+      if (initialPercentage === 100) openPracticeModal();
+    });
+
+
+    const [lessonId] = useState(initialLessonId);
+    const [hearts, setHearts] = useState(initialHearts);
+    const [percentage, setPercentage] = useState(() => {
+      return initialPercentage === 100 ? 0 : initialPercentage;
+    });
+    const [challenges] = useState(initialLessonChallenges);
     const [activeIndex, setActiveIndex] = useState(() => {
-      const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed)
-      return uncompletedIndex === -1 ? 0 : uncompletedIndex
-    })
+      const uncompletedIndex = challenges.findIndex(
+        (challenge) => !challenge.completed
+      );
 
-    const challenge = challenges[activeIndex];
-    const options = challenge?.challengeOptions ?? []
-    // options
+      return uncompletedIndex === -1 ? 0 : uncompletedIndex;
+    });
+
     const [selectedOption, setSelectedOption] = useState<number>();
     const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
 
 
-    const title = challenge.type === "ASSIST" ? "Зөв утгатай үгний утгыг сонгоно уу" : challenge.question
-
-    // const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true, });
-    // const { width, height } = useWindowSize();
+    const challenge = challenges[activeIndex];
+    const options = challenge?.challengeOptions ?? [];
 
 
-    // const router = useRouter();
-    const [pending, startTransition] = useTransition();
-    const { open: openHeartsModal } = useHeartsModal();
-    // const { open: openPracticeModal } = usePracticeModal();
+    const onNext = () => {
+      setActiveIndex((current) => current + 1);
+    };
+
 
     const onSelect = (id: number) => {
       if (status !== "none") return;
       setSelectedOption(id);
-    };
-
-    const onNext = () => {
-      setActiveIndex((current) => current + 1);
     };
 
     const onContinue = () => {
@@ -87,6 +107,7 @@ export const Quiz =
       }
 
       if (status === "correct") {
+        onNext()
         setStatus("none")
         setSelectedOption(undefined)
         return
@@ -116,13 +137,12 @@ export const Quiz =
             .catch(() => toast.error("Something went wrong. Please try again."));
         });
       }
-
       else {
         startTransition(() => {
           reduceHearts(challenge.id)
             .then((response) => {
               if (response?.error === "hearts") {
-                openHeartsModal();
+                // openHeartsModal();
                 return;
               }
               setStatus("wrong");
@@ -132,6 +152,61 @@ export const Quiz =
         });
       }
     }
+
+    if (!challenge) {
+      return (
+        <>
+          {finishAudio}
+          <Confetti
+            recycle={false}
+            numberOfPieces={500}
+            tweenDuration={10000}
+            width={width}
+            height={height} />
+          <div className="mx-auto flex h-full max-w-lg flex-col items-center justify-center gap-y-4 text-center lg:gap-y-8">
+            <Image
+              src="/finish.svg"
+              alt="Finish"
+              className="hidden lg:block"
+              height={100}
+              width={100}
+            />
+
+            <Image
+              src="/finish.svg"
+              alt="Finish"
+              className="block lg:hidden"
+              height={100}
+              width={100}
+            />
+
+
+            <h1 className="text-lg font-bold text-neutral-700 lg:text-3xl">
+              Амжилттай хичээлийг үзэж дуусгалаа 😊
+            </h1>
+
+
+
+            <div className="flex w-full items-center gap-x-4">
+              <ResultCard variant="points" value={challenges.length * 10} />
+              <ResultCard
+                variant="hearts"
+                value={userSubscription?.isActive ? Infinity : hearts}
+              />
+            </div>
+          </div>
+
+          <Footer
+            lessonId={lessonId}
+            status="completed"
+            onCheck={() => router.push("/learn")}
+          />
+        </>
+      )
+    }
+
+
+    const title = challenge.type === "ASSIST" ? "Зөв утгатай үгний утгыг сонгоно уу" : challenge.question
 
     return (
       <>
